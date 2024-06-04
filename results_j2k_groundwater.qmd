@@ -10,7 +10,11 @@ format:
     theme: mytheme.scss
     slide-number: true
     controls: true
+    output-file: index.html
 lightbox: auto
+self-contained: false
+embed-resources: false
+post-render: remove_hardcoded_data.py
 ---
 
 # Available data {background-image="images/ae_light.png"}
@@ -142,4 +146,5 @@ readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/dur_badF
 
 # Calibration of J2000-Loire {background-image="images/ae_light.png"}
 
+## 
 
