@@ -1,0 +1,30 @@
+/*-- scss:defaults --*/
+// fonts
+$font-family-sans-serif: "AvenirNextLTPro-Regular", "Avenir Next LT Pro";
+
+// colors
+//$body-bg: white !default;
+$body-color: #000 !default;
+$link-color: #006264 !default;
+$selection-bg: #00b4d8 !default;
+
+// headings
+$presentation-heading-font: "AvenirNextLTPro-Regular", "Avenir Next LT Pro";
+$presentation-heading-color: #00a3a6 !default;
+
+
+/*-- scss:rules --*/
+// underline under header
+.reveal section h2::after {
+  content: "";
+  display: block;
+  margin-top: 0.25em;
+  border-bottom: 3px solid #006264;
+}
+
+.reveal-viewport {
+  background-repeat: no-repeat;
+  //background-image: url(ae_light.png);
+  background-position: center;
+}
+

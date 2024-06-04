@@ -1,0 +1,145 @@
+---
+title: "Evaluation of the J2000 groundwater component"
+title-slide-attributes:
+  data-background-image: images/ae_light.png
+subtitle: "Loire and Rhône"
+format: 
+  revealjs:
+    logo: images/Logo-INRAE_Transparent.png
+    footer: "Ruben C. Kubina - ?.06.2024"
+    theme: mytheme.scss
+    slide-number: true
+    controls: true
+lightbox: auto
+---
+
+# Available data {background-image="images/ae_light.png"}
+
+-   Reference piezometers of Explore2 project (corrected and missing values interpolated)
+
+-   analysis of other piezometers with available data in ADES database
+
+## Piezometers
+
+::: panel-tabset
+### Loire
+
+```{r}
+readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/mapLoire.RDS")
+```
+
+### Rhône
+
+```{r}
+readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/mapRhone.RDS")
+```
+:::
+
+## Data preparation {.scrollable}
+
+::: panel-tabset
+### Filter
+
+Piezometers were filtered for:
+
+-   more than 80% available data per hydrological year
+-   more than 18 available years after 2000 (10 for Rhône)
+
+### Normalization
+
+Z-score normalization as modification of standardized piezometric level index (SPLI) (s. [Seguin et al., 2016](http://infoterre.brgm.fr/rapports/RP-67251-FR.pdf))
+
+<center>$SPLI(t)=\frac{\overline{x}(t)-\mu(\overline{x})}{\sigma(\overline{x})}$</center>
+
+::: {.callout-tip appearance="simple"}
+$\overline{x}(t)$: monthly means of the piezometric or simulated values, $\mu(\overline{x})$: mean value, $\sigma(\overline{x})$: standard deviation.
+:::
+
+### Loire
+
+```{r}
+readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/dataAvail_Loire.RDS")
+```
+
+```{r}
+readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/dataAvail_filt_Loire.RDS")
+```
+
+### Rhône
+
+```{r}
+readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/dataAvail_Rhone.RDS")
+```
+
+```{r}
+readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/dataAvail_filt_Rhone.RDS")
+```
+:::
+
+## K-means clustering
+
+::: panel-tabset
+### Method
+
+Regimes of filtered stations were clustered using the *K-means* method.
+
+$\rightarrow$ Stations with minimum in August were removed and assumed to be influenced
+
+### Loire
+
+```{r}
+readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/clustRegime_Loire.RDS")
+```
+
+### Rhône
+
+```{r}
+readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/clustRegime_Rhone.RDS")
+```
+:::
+
+## Manual removal of piezometers
+
+-   Further piezometers were removed by manually checking for trends
+
+-   Outliers were replaced with NAs
+
+# Evaluation of groundwater component {background-image="images/ae_light.png"}
+
+-   Models were run from 1990 to 2019 (10 years warmup)
+
+-   Calculation of: monthly means $\rightarrow$ SPLI
+
+## Time series {.scrollable}
+Good fit:
+```{r}
+readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/goodFit_Loire.RDS")
+```
+
+Bad fit:
+```{r}
+readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/badFit_Loire.RDS")
+```
+
+## Duration curve
+
+```{r}
+readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/dur_badFit_Loire.RDS")
+```
+
+## Goodness of fit tests and hydrological signatures[^1]
+
+  - Using $NSE$ and Pearson-Correlation ($r$)
+  
+  - Interquartile range ($IQR$) and the difference of the maximum and the 95% quantile ($Q_{diff}(95,100)$)
+  
+  <center> $IQR = x_{0.75} - x_{0.25}$ </center>
+  
+  <center> $Q_{Diff}(100,95) = x_{1} - x_{0.95}$ </center>
+
+[^1]: s. [Heudorfer et al. (2019)](https://doi.org/10.1029/2018WR024418) for more hydrological signatures on groundwater data
+
+
+# Calibration of J2000-Loire {background-image="images/ae_light.png"}
+
+
