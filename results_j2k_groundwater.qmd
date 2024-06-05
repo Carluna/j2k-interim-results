@@ -14,7 +14,6 @@ format:
 lightbox: auto
 self-contained: false
 embed-resources: false
-post-render: remove_hardcoded_data.py
 ---
 
 # Available data {background-image="images/ae_light.png"}
@@ -47,7 +46,7 @@ readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/mapRhone
 Piezometers were filtered for:
 
 -   more than 80% available data per hydrological year
--   more than 18 available years after 2000 (10 for Rhône)
+-   more than 18 available years after 2000 (14 for Rhône)
 
 ### Normalization
 
@@ -108,9 +107,11 @@ readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/clustReg
 
 -   Outliers were replaced with NAs
 
-# Evaluation of groundwater component {background-image="images/ae_light.png"}
+# Evaluation of groundwater component - Loire {background-image="images/ae_light.png"}
 
--   Models were run from 1990 to 2019 (10 years warmup)
+-   Model was run from 1990 to 2019 (10 years warmup)
+
+-   Output: reference piezometers and additional HRUs of every hgeoID
 
 -   Calculation of: monthly means $\rightarrow$ SPLI
 
@@ -142,6 +143,52 @@ readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/dur_badF
   <center> $Q_{Diff}(100,95) = x_{1} - x_{0.95}$ </center>
 
 [^1]: s. [Heudorfer et al. (2019)](https://doi.org/10.1029/2018WR024418) for more hydrological signatures on groundwater data
+
+## Results - hydrological signatures
+```{r}
+readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/initHydrS_Loire.RDS")
+``` 
+
+## Results - GOFs
+```{r}
+readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/initGofs_Loire.RDS")
+```
+
+
+# Evaluation of groundwater component - Rhône {background-image="images/ae_light.png"}
+
+-   Model was run from 1990 to 2019 (10 years warmup)
+
+-   Output: filtered piezometers and additional HRUs of every hgeoID
+
+-   Calculation of: monthly means $\rightarrow$ SPLI
+
+## Time series {.scrollable}
+Good fit (?):
+```{r}
+readRDS(file = "/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/goodFit_Rhone.RDS")
+```
+
+Bad fit:
+```{r}
+readRDS(file = "/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/badFit_Rhone.RDS")
+```
+
+## Duration curve
+
+```{r}
+readRDS(file = "/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/dur_badFit_Rhone.RDS")
+```
+
+## Results - hydrological signatures
+```{r}
+readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/initHydrS_Rhone.RDS")
+``` 
+
+## Results - GOFs
+```{r}
+readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/initGofs_Rhone.RDS")
+```
 
 
 # Calibration of J2000-Loire {background-image="images/ae_light.png"}
