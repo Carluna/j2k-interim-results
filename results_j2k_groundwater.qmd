@@ -154,7 +154,6 @@ readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/initHydr
 readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/initGofs_Loire.RDS")
 ```
 
-
 # Evaluation of groundwater component - Rhône {background-image="images/ae_light.png"}
 
 -   Model was run from 1990 to 2019 (10 years warmup)
@@ -193,5 +192,13 @@ readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/initGofs
 
 # Calibration of J2000-Loire {background-image="images/ae_light.png"}
 
-## 
+## Initial state - calibration period
 
+```{r, fig.width=5, fig.height=5}
+#| layout-ncol: 2
+#| crop: true
+
+readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/map_initNSE_Loire.RDS")
+
+readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/map_initKGE_Loire.RDS")
+```
