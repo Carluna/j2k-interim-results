@@ -27,7 +27,7 @@ embed-resources: false
 ::: panel-tabset
 ### Loire
 
-```{r}
+```{r }
 readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/mapLoire.RDS")
 ```
 
@@ -116,12 +116,15 @@ readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/clustReg
 -   Calculation of: monthly means $\rightarrow$ SPLI
 
 ## Time series {.scrollable}
+
 Good fit:
+
 ```{r}
 readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/goodFit_Loire.RDS")
 ```
 
 Bad fit:
+
 ```{r}
 readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/badFit_Loire.RDS")
 ```
@@ -134,22 +137,25 @@ readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/dur_badF
 
 ## Goodness of fit tests and hydrological signatures[^1]
 
-  - Using $NSE$ and Pearson-Correlation ($r$)
-  
-  - Interquartile range ($IQR$) and the difference of the maximum and the 95% quantile ($Q_{diff}(95,100)$)
-  
-  <center> $IQR = x_{0.75} - x_{0.25}$ </center>
-  
-  <center> $Q_{Diff}(100,95) = x_{1} - x_{0.95}$ </center>
+[^1]:
+    s.  [Heudorfer et al. (2019)](https://doi.org/10.1029/2018WR024418) for more hydrological signatures on groundwater data
 
-[^1]: s. [Heudorfer et al. (2019)](https://doi.org/10.1029/2018WR024418) for more hydrological signatures on groundwater data
+-   Using $NSE$ and Pearson-Correlation ($r$)
+
+-   Interquartile range ($IQR$) and the difference of the maximum and the 95% quantile ($Q_{diff}(95,100)$)
+
+<center>$IQR = x_{0.75} - x_{0.25}$</center>
+
+<center>$Q_{Diff}(100,95) = x_{1} - x_{0.95}$</center>
 
 ## Results - hydrological signatures
+
 ```{r}
 readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/initHydrS_Loire.RDS")
-``` 
+```
 
 ## Results - GOFs
+
 ```{r}
 readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/initGofs_Loire.RDS")
 ```
@@ -163,12 +169,15 @@ readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/initGofs
 -   Calculation of: monthly means $\rightarrow$ SPLI
 
 ## Time series {.scrollable}
+
 Good fit (?):
+
 ```{r}
 readRDS(file = "/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/goodFit_Rhone.RDS")
 ```
 
 Bad fit:
+
 ```{r}
 readRDS(file = "/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/badFit_Rhone.RDS")
 ```
@@ -180,15 +189,16 @@ readRDS(file = "/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/d
 ```
 
 ## Results - hydrological signatures
+
 ```{r}
 readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/initHydrS_Rhone.RDS")
-``` 
+```
 
 ## Results - GOFs
+
 ```{r}
 readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/initGofs_Rhone.RDS")
 ```
-
 
 # Calibration of J2000-Loire {background-image="images/ae_light.png"}
 
@@ -202,3 +212,57 @@ readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/map_init
 
 readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/map_initKGE_Loire.RDS")
 ```
+
+## Discharge
+
+```{r, fig.width=10, fig.height=10, out.width="50%", fig.align='center'}
+library(ggtext)
+readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/plot_calib_KGE.RDS")
+```
+
+## Groundwater
+
+```{r, fig.width=10, fig.height=10, out.width="50%", fig.align='center'}
+readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/plot_calib_NSE.RDS")
+```
+
+## Best run - highest KGE with improvement in NSE
+
+```{r, fig.width=5, fig.height=5}
+#| layout-ncol: 2
+#| crop: true
+
+readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/map_initKGE_Loire.RDS")
+
+readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/map_calibKGE_Loire.RDS")
+```
+
+## Best run - highest KGE with improvement in NSE
+
+```{r, fig.width=5, fig.height=5}
+#| layout-ncol: 2
+#| crop: true
+
+readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/map_initNSE_Loire.RDS")
+
+readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/map_calibNSE_Loire.RDS")
+
+```
+
+## Run - highest NSE
+
+```{r, fig.width=5, fig.height=5}
+#| layout-ncol: 2
+#| crop: true
+
+readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/map_calibKGE_nseC_Loire.RDS")
+
+readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/map_calibNSE_nseC_Loire.RDS")
+```
+
+## To-Do
+
+  -   Validation
+  -   Ranges of runs with KGE > 0.6 and improvement in NSE
+  -   new simulations in this range?
+  -   adding the filtered piezometers as group 2 to see comparison
