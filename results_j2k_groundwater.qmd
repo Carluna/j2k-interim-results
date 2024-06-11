@@ -48,30 +48,6 @@ readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/mapRhone
 ```
 :::
 
-## Data preparation - Normalization {.scrollable}
-
-::: panel-tabset
-### How to compare the data?
-
-```{r, out.width="80%", fig.align='center'}
-readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/exampleNorm.RDS")
-```
-
-### Normalization
-
-::: callout
-$\rightarrow$ Normalization necessary because of different units or reference points <br/>
-:::
-
-Z-score normalization as modification of standardized piezometric level index (SPLI) (s. [Seguin et al., 2016](http://infoterre.brgm.fr/rapports/RP-67251-FR.pdf))
-
-<center>$SPLI(t)=\frac{\overline{x}(t)-\mu(\overline{x})}{\sigma(\overline{x})}$</center>
-
-::: {.callout-tip appearance="simple"}
-$\overline{x}(t)$: monthly means of the piezometric or simulated values, $\mu(\overline{x})$: mean value, $\sigma(\overline{x})$: standard deviation.
-:::
-:::
-
 ## Data preparation - Availability {.scrollable}
 
 ::: panel-tabset
@@ -103,46 +79,37 @@ readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/dataAvai
 ```
 :::
 
-## K-means clustering
+## Data preparation - Normalization {.scrollable}
 
 ::: panel-tabset
-### Why Clustering?
+### How to compare the data?
 
--   Identification of piezometers to use for the Rhône catchment
-
-    -   Try to identify influenced piezometers by regime
-
--   Identification of additional piezometers for Loire catchment
-    
-
-### Method
-
-Regimes of filtered stations were clustered using the *K-means* method.
-
-$\rightarrow$ Stations with minimum in August were removed and assumed to be influenced
-
-### Loire
-
-```{r}
-readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/clustRegime_Loire.RDS")
+```{r, out.width="80%", fig.align='center'}
+readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/exampleNorm.RDS")
 ```
 
-### Rhône
+### Normalization
 
-```{r}
-readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/clustRegime_Rhone.RDS")
-```
+::: callout
+$\rightarrow$ Normalization necessary because of different units or reference points <br/>
 :::
 
-## Manual removal of piezometers
+Z-score normalization as modification of standardized piezometric level index (SPLI) (s. [Seguin et al., 2016](http://infoterre.brgm.fr/rapports/RP-67251-FR.pdf))
 
--   Further piezometers were removed by manually checking for trends
+<center>$SPLI(t)=\frac{\overline{x}(t)-\mu(\overline{x})}{\sigma(\overline{x})}$</center>
 
--   Outliers were replaced with NAs
+::: {.callout-tip appearance="simple"}
+$\overline{x}(t)$: monthly means of the piezometric or simulated values, $\mu(\overline{x})$: mean value, $\sigma(\overline{x})$: standard deviation.
+:::
+:::
 
-```{r, out.width="60%", fig.align='center'}
-readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/OutlierRemoval_Loire.RDS")
-```
+## Additional piezometers
+
+-   K-means clustering to identify stations which are assumed as not influenced
+
+      - For the Rhône: as stations to compare model output $\rightarrow$ "filtered piezometers"
+      
+      - For the Loire: stations in more hgeoIDs and calibration
 
 # Evaluation of groundwater component - Loire {background-image="images/ae_light.png"}
 
@@ -425,6 +392,48 @@ readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/tabSumma
 -   parallel runs possible (using 3-4 cluster on meso): 10
 
 # Appendix
+
+## Clustering {.scrollable}
+
+::: panel-tabset
+### Why Clustering?
+
+-   Identification of piezometers to use for the Rhône catchment
+
+    -   Try to identify influenced piezometers by regime
+
+-   Identification of additional piezometers for Loire catchment
+    
+
+### Method
+
+Regimes of filtered stations were clustered using the *K-means* method.
+
+$\rightarrow$ Stations with minimum in August were removed and assumed to be influenced
+
+### Loire
+
+```{r}
+readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/clustRegime_Loire.RDS")
+```
+
+### Rhône
+
+```{r}
+readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/clustRegime_Rhone.RDS")
+```
+:::
+
+## Manual removal of piezometers
+
+-   Further piezometers were removed by manually checking for trends
+
+-   Outliers were replaced with NAs
+
+```{r, out.width="60%", fig.align='center'}
+readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/OutlierRemoval_Loire.RDS")
+```
+
 
 ## Calibration {.scrollable}
 
