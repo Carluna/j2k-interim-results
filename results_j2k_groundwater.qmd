@@ -6,15 +6,25 @@ subtitle: "Loire and Rhône"
 format: 
   revealjs:
     logo: images/Logo-INRAE_Transparent.png
-    footer: "Ruben C. Kubina - ?.06.2024"
+    footer: "Ruben C. Kubina - 13.06.2024"
     theme: mytheme.scss
     slide-number: true
     controls: true
     output-file: index.html
+    chalkboard: true
 lightbox: auto
 self-contained: false
 embed-resources: false
 ---
+
+## Introduction - Why evaluate the groundwater compartment?
+
+-   **Plan**: integrate artificial extractions into the models <br/> $\rightarrow$ drinking water, water for irrigation, ...
+
+-   **Question**: how is the groundwater component represented in J2K? <br/>
+    
+    - J200-Loire
+    - J200-Rhône
 
 # Available data {background-image="images/ae_light.png"}
 
@@ -38,17 +48,20 @@ readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/mapRhone
 ```
 :::
 
-## Data preparation {.scrollable}
+## Data preparation - Normalization {.scrollable}
 
 ::: panel-tabset
-### Filter
+### How to compare the data?
 
-Piezometers were filtered for:
-
--   more than 80% available data per hydrological year
--   more than 18 available years after 2000 (14 for Rhône)
+```{r, out.width="80%", fig.align='center'}
+readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/exampleNorm.RDS")
+```
 
 ### Normalization
+
+::: callout
+$\rightarrow$ Normalization necessary because of different units or reference points <br/>
+:::
 
 Z-score normalization as modification of standardized piezometric level index (SPLI) (s. [Seguin et al., 2016](http://infoterre.brgm.fr/rapports/RP-67251-FR.pdf))
 
@@ -57,6 +70,17 @@ Z-score normalization as modification of standardized piezometric level index (S
 ::: {.callout-tip appearance="simple"}
 $\overline{x}(t)$: monthly means of the piezometric or simulated values, $\mu(\overline{x})$: mean value, $\sigma(\overline{x})$: standard deviation.
 :::
+:::
+
+## Data preparation - Availability {.scrollable}
+
+::: panel-tabset
+### Filter
+
+Piezometers were filtered for:
+
+-   more than 80% available data per hydrological year
+-   more than 18 available years after 2000 (14 for Rhône)
 
 ### Loire
 
@@ -82,6 +106,15 @@ readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/dataAvai
 ## K-means clustering
 
 ::: panel-tabset
+### Why Clustering?
+
+-   Identification of piezometers to use for the Rhône catchment
+
+    -   Try to identify influenced piezometers by regime
+
+-   Identification of additional piezometers for Loire catchment
+    
+
 ### Method
 
 Regimes of filtered stations were clustered using the *K-means* method.
@@ -107,23 +140,26 @@ readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/clustReg
 
 -   Outliers were replaced with NAs
 
+```{r, out.width="60%", fig.align='center'}
+readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/OutlierRemoval_Loire.RDS")
+```
+
 # Evaluation of groundwater component - Loire {background-image="images/ae_light.png"}
 
--   Model was run from 1990 to 2019 (10 years warmup)
+-   Model was run from 1990 to 2019 (including 10 years warmup)
 
 -   Output: reference piezometers and additional HRUs of every hgeoID
 
--   Calculation of: monthly means $\rightarrow$ SPLI
-
 ## Time series {.scrollable}
 
-Good fit:
+-   Calculation of: monthly means $\rightarrow$ SPLI <br/>
+-   Good fit:
 
 ```{r}
 readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/goodFit_Loire.RDS")
 ```
 
-Bad fit:
+-   Bad fit:
 
 ```{r}
 readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/badFit_Loire.RDS")
@@ -140,21 +176,88 @@ readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/dur_badF
 [^1]:
     s.  [Heudorfer et al. (2019)](https://doi.org/10.1029/2018WR024418) for more hydrological signatures on groundwater data
 
--   Using $NSE$ and Pearson-Correlation ($r$)
+-   Using NSE and Pearson-Correlation (r)
 
--   Interquartile range ($IQR$) and the difference of the maximum and the 95% quantile ($Q_{diff}(95,100)$)
+-   Interquartile range (**IQR**) and the difference of the maximum and the 95% quantile (**Q~diff~(95,100)**)
 
-<center>$IQR = x_{0.75} - x_{0.25}$</center>
+<center>IQR = x~0.75~ - x~0.25~</center> 
 
-<center>$Q_{Diff}(100,95) = x_{1} - x_{0.95}$</center>
+<center>Q~Diff~(100,95) = x~1~ - x~0.95~</center>
 
-## Results - hydrological signatures
+## Hydrological signatures
 
-```{r}
-readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/initHydrS_Loire.RDS")
+<center>**$\rightarrow$ Target: IQR $\neq$ 0 and Q~diff~ $\neq$ 0**</center>
+
+```{r, fig.height=5, fig.width=6,  fig.align='center'}
+readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/durCur_example_Loire.RDS")
 ```
 
-## Results - GOFs
+## Results - hydrological signatures
+::::: {layout="[[2,1]]" layout-valign="center"}
+
+::: {#first-column}
+
+::: {.r-stack}
+
+::: {}
+
+```{r}
+readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/initHydrS_Loire.RDS") 
+```
+
+:::
+
+::: {.fragment}
+```{r} 
+readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/initHydrS_Loire.RDS") |>
+   gtExtras::gt_highlight_rows(
+     rows = c(5,7,11),
+     fill = "lightgrey",
+     bold_target_only = TRUE
+   )
+```
+
+:::
+
+::: {.fragment}
+
+```{r} 
+readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/initHydrS_Loire.RDS") |>
+   gtExtras::gt_highlight_rows(
+     rows = c(5,7,10,11,13),
+     fill = "lightgrey",
+     bold_target_only = TRUE
+   )|>
+    gtExtras::gt_highlight_rows(
+     rows = c(10,13),
+     fill = "steelblue",
+     bold_target_only = TRUE 
+   )
+```
+:::
+
+:::
+
+:::
+
+::: {#second-column}
+
+:::{style="font-size:50%"}
+
+**RG1~max~:** Max. volume of reservoir <br>
+**RG1~k~:** Depletion rate (high $\rightarrow$ slow, small $\rightarrow$ fast)
+
+:::
+
+```{r, fig.height=7}
+readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/durCur_example_Loire.RDS")
+```
+:::
+
+:::::
+
+
+## Results - GOFs of reference piezometers
 
 ```{r}
 readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/initGofs_Loire.RDS")
@@ -166,7 +269,6 @@ readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/initGofs
 
 -   Output: filtered piezometers and additional HRUs of every hgeoID
 
--   Calculation of: monthly means $\rightarrow$ SPLI
 
 ## Time series {.scrollable}
 
@@ -190,17 +292,77 @@ readRDS(file = "/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/d
 
 ## Results - hydrological signatures
 
+:::: {.r-stack}
+::: {}
 ```{r}
 readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/initHydrS_Rhone.RDS")
 ```
+:::
 
-## Results - GOFs
+::: {.fragment}
+```{r}
+readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/initHydrS_Rhone.RDS")|>
+   gtExtras::gt_highlight_rows(
+     rows = c(1,2,3,4,6,7),
+     fill = "lightgrey",
+     bold_target_only = TRUE
+   )
+```
+:::
+
+::: {.fragment}
+```{r}
+readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/initHydrS_Rhone.RDS")|>
+   gtExtras::gt_highlight_rows(
+     rows = c(1,2,3,4,6,7),
+     fill = "lightgrey",
+     bold_target_only = TRUE 
+    ) |>
+    gtExtras::gt_highlight_rows(
+     rows = c(5,8,9),
+     fill = "steelblue",
+     bold_target_only = TRUE 
+   )
+```
+:::
+
+::::
+
+## Results - GOFs of filtered piezometers
 
 ```{r}
 readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/initGofs_Rhone.RDS")
 ```
 
+# Conclusion of the evaluation
+
+-   Dynamics of the groundwater can be represented by J2000
+
+    -   Initial model of the Loire shows better results
+ 
+    -   Initial model of the Rhône has too low RG1~max~ values for some hgeoIDs
+  
+-   Reference data is little available $\rightarrow$ difficult to evaluate all hgeoIDs
+
+---
+
+-   no possibility to increase only RG1~max~ $\rightarrow$ Interplay of RG1~max~ and RG1~k~ 
+
+    -   also: model reservoir should get empty? $\rightarrow$ artificial extraction, depletion of the baseflow
+
+-   models should be calibrated again $\rightarrow$ focus on discharge, but improvement of groundwater component
+
+
+
+
+
 # Calibration of J2000-Loire {background-image="images/ae_light.png"}
+ 
+-   400 exploratory runs on the meso-server, changing RG1~max~ and RG1~k~
+
+    -   reference piezometers and reference gauging stations
+
+    -   additional HRUs of each hgeoID
 
 ## Initial state - calibration period
 
@@ -211,19 +373,6 @@ readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/initGofs
 readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/map_initNSE_Loire.RDS")
 
 readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/map_initKGE_Loire.RDS")
-```
-
-## Discharge
-
-```{r, fig.width=10, fig.height=10, out.width="50%", fig.align='center'}
-library(ggtext)
-readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/plot_calib_KGE.RDS")
-```
-
-## Groundwater
-
-```{r, fig.width=10, fig.height=10, out.width="50%", fig.align='center'}
-readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/plot_calib_NSE.RDS")
 ```
 
 ## Best run - highest KGE with improvement in NSE
@@ -249,7 +398,51 @@ readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/map_cali
 
 ```
 
-## Run - highest NSE
+# Validation of J2000-Loire {background-image="images/ae_light.png"}
+
+```{r}
+readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/tabSummaryValid_Loire.RDS")
+```
+
+# Outlook
+
+-   run model with initial and calibration parameters for longest period possible
+
+      -   is short calibration period representative?
+
+-   compare output of filtered piezometers from both runs 
+
+-   design way to further calibrate the model?
+
+# Problems
+
+-   model run is very time-consuming:
+
+    -   141 Gauging stations + 39 reference piezometers + 95 additional HRUs $\rightarrow$ **>2.5 hours**
+    
+    -   141 Gauging stations + 39 reference piezometers + 95 additional HRUs + 80 filtered piezometers$\rightarrow$ **>4.5 hours**
+    
+-   parallel runs possible (using 3-4 cluster on meso): 10
+
+# Appendix
+
+## Calibration {.scrollable}
+
+### Discharge
+
+```{r, fig.width=10, fig.height=10, out.width="55%", fig.align='center'}
+library(ggtext)
+readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/plot_calib_KGE.RDS")
+```
+
+### Groundwater
+
+```{r, fig.width=10, fig.height=10, out.width="55%", fig.align='center'}
+readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/plot_calib_NSE.RDS")
+```
+
+
+### Run - highest NSE
 
 ```{r, fig.width=5, fig.height=5}
 #| layout-ncol: 2
@@ -259,10 +452,3 @@ readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/map_cali
 
 readRDS("/home/rkubina/Documents/05_COMM/01_DIAPO/interim_results/rdata/map_calibNSE_nseC_Loire.RDS")
 ```
-
-## To-Do
-
-  -   Validation
-  -   Ranges of runs with KGE > 0.6 and improvement in NSE
-  -   new simulations in this range?
-  -   adding the filtered piezometers as group 2 to see comparison
